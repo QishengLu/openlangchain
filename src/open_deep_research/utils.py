@@ -32,6 +32,11 @@ from tavily import AsyncTavilyClient
 from open_deep_research.configuration import Configuration, SearchAPI
 from open_deep_research.prompts import summarize_webpage_prompt
 from open_deep_research.state import ResearchComplete, Summary
+from open_deep_research.data_tools import (
+    list_tables_in_directory,
+    get_schema,
+    query_parquet_files,
+)
 
 ##########################
 # Tavily Search Tool Utils
@@ -593,6 +598,9 @@ async def get_all_tools(config: RunnableConfig):
     # Add MCP tools if configured
     mcp_tools = await load_mcp_tools(config, existing_tool_names)
     tools.extend(mcp_tools)
+    
+    # Add data analysis tools
+    tools.extend([list_tables_in_directory, get_schema, query_parquet_files])
     
     return tools
 
