@@ -96,7 +96,9 @@ def main():
                 print(f"User: {last_message.content[:100]}...")
 
     # 6. Save Output
-    output_path = Path("experiments/output.json")
+    output_path = Path(os.getenv("OUTPUT_FILE", "experiments/output.json"))
+    # Ensure directory exists
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     save_output(str(output_path), messages)
 
 if __name__ == "__main__":
